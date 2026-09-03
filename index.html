@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFAR — Путешествия по Казахстану</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">SAFAR<span>✦</span></div>
+
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#">Места</a>
+        <a href="#">Маршруты</a>
+        <a href="#">Еда</a>
+    </nav>
+
+    <div class="language">RU ▾</div>
+</header>
+
+
+<main>
+
+    <section class="hero">
+        <div class="hero-text">
+            <p class="small-title">🇰🇿 ПУТЕШЕСТВУЙ ПО-КАЗАХСКИ</p>
+
+            <h1>
+                Открой<br>
+                Казахстан<br>
+                <span>по-своему.</span>
+            </h1>
+
+            <p class="description">
+                Ответь на несколько вопросов — и SAFAR
+                подберёт путешествие специально для тебя.
+            </p>
+
+            <button class="main-button" onclick="startQuiz()">
+                ✨ Начать подбор
+            </button>
+        </div>
+
+        <div class="hero-decoration">
+            🏔️
+        </div>
+    </section>
+
+
+    <section class="quiz" id="quiz">
+
+        <h2>Создадим твоё путешествие</h2>
+        <p class="subtitle">
+            Выбери то, что тебе интересно
+        </p>
+
+
+        <div class="question">
+            <h3>01 — Что тебе нравится?</h3>
+
+            <div class="options">
+                <button class="option" onclick="selectOption(this, 'nature')">
+                    🏔️ Природа
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'history')">
+                    🏛️ История
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'food')">
+                    🍜 Еда
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'photo')">
+                    📸 Красивые места
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'adventure')">
+                    🔥 Приключения
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'culture')">
+                    🎨 Культура
+                </button>
+            </div>
+        </div>
+
+
+        <div class="question">
+            <h3>02 — Сколько времени?</h3>
+
+            <div class="options">
+                <button class="option" onclick="selectOption(this, '1day')">
+                    ☀️ 1 день
+                </button>
+
+                <button class="option" onclick="selectOption(this, '3days')">
+                    🌅 2–3 дня
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'week')">
+                    🗓️ 4–7 дней
+                </button>
+            </div>
+        </div>
+
+
+        <div class="question">
+            <h3>03 — Какой бюджет?</h3>
+
+            <div class="options">
+                <button class="option" onclick="selectOption(this, 'cheap')">
+                    🪙 До 20 000 ₸
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'medium')">
+                    💵 20–50 000 ₸
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'rich')">
+                    💰 50–100 000 ₸
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'luxury')">
+                    💎 100 000+ ₸
+                </button>
+            </div>
+        </div>
+
+
+        <div class="question">
+            <h3>04 — С кем едешь?</h3>
+
+            <div class="options">
+                <button class="option" onclick="selectOption(this, 'alone')">
+                    🧍 Один
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'friends')">
+                    👯 С друзьями
+                </button>
+
+                <button class="option" onclick="selectOption(this, 'family')">
+                    👨‍👩‍👧 С семьёй
+                </button>
+            </div>
+        </div>
+
+
+        <button class="find-button" onclick="findTrip()">
+            ✨ ПОДОБРАТЬ ПУТЕШЕСТВИЕ
+        </button>
+
+    </section>
+
+
+    <section class="result" id="result">
+
+        <p class="small-title">SAFAR AI</p>
+
+        <h2>Мы нашли кое-что для тебя ✨</h2>
+
+        <div class="result-card">
+
+            <div class="result-image">
+                🏔️
+            </div>
+
+            <div class="result-info">
+
+                <p>🏆 ЛУЧШИЙ ВАРИАНТ</p>
+
+                <h3>Алматинские горы</h3>
+
+                <div class="score">
+                    94% подходит тебе
+                </div>
+
+                <p>
+                    Природа, красивые виды и приключения —
+                    отличный вариант для путешествия с друзьями.
+                </p>
+
+                <button onclick="alert('Страница места пока находится в разработке!')">
+                    📍 Подробнее
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    <div class="logo">SAFAR<span>✦</span></div>
+    <p>Открой Казахстан по-своему 🇰🇿</p>
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

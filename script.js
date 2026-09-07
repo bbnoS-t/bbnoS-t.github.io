@@ -130,93 +130,58 @@ function selectOption(button, value) {
     console.log("Выбор:", userChoices);
 }
 
+async function findTrip() {
+  if (!userChoices.category) {
+    alert("Сначала выбери, что тебе нравится ❤️");
+    return;
+  }
 
-function findTrip() {
+  const result = document.getElementById("result");
 
-    const result = document.getElementById("result");
+  result.style.display = "block";
+  result.innerHTML = `
+    <p class="small-title">SAFAR AI</p>
+    <h2>Ищем подходящие места... 🔎</h2>
+    <p>SAFAR проверяет актуальную информацию и подбирает варианты для тебя.</p>
+  `;
 
-    // Ищем подходящие места
-    let matches = places.map(place => {
+  result.scrollIntoView({ behavior: "smooth" });
 
-        let score = 0;
+  try {
+    const response = await fetch(
+      "https://safar-ai-backend-2lvu.vercel.app/api/recommend",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userChoices)
+      }
+    );
 
-        if (place.category === userChoices.category) {
-            score += 40;
-        }
+    const data = await response.json();
 
-        if (place.duration === userChoices.duration) {
-            score += 25;
-        }
-
-        if (place.budget === userChoices.budget) {
-            score += 20;
-        }
-
-        if (
-            place.companions &&
-            place.companions.includes(userChoices.companions)
-        ) {
-            score += 15;
-        }
-
-        return {
-            ...place,
-            score: score
-        };
-
-    });
-
-    // Сортируем от лучшего варианта к худшему
-    matches.sort((a, b) => b.score - a.score);
-
-    const best = matches[0];
-
-    // Если пользователь ничего не выбрал
-    if (!userChoices.category) {
-        alert("Сначала выбери хотя бы, что тебе нравится ❤️");
-        return;
+    if (!response.ok) {
+      throw new Error(data.error || "Ошибка сервера");
     }
 
-    // Показываем результат
-    result.style.display = "block";
-
     result.innerHTML = `
-        <p class="small-title">SAFAR AI</p>
-
-        <h2>Мы нашли кое-что для тебя ✨</h2>
-
-        <div class="result-card">
-
-            <div class="result-image">
-                ${best.emoji}
-            </div>
-
-            <div class="result-info">
-
-                <p>🏆 ЛУЧШИЙ ВАРИАНТ</p>
-
-                <h3>${best.name}</h3>
-
-                <div class="score">
-                    ${best.score}% подходит тебе
-                </div>
-
-                <p>
-                    ${best.description}
-                </p>
-
-                <button onclick="alert('Подробная страница места появится следующим этапом!')">
-                    📍 Подробнее
-                </button>
-
-            </div>
-
+      <p class="small-title">SAFAR AI</p>
+      <h2>Мы нашли кое-что для тебя ✨</h2>
+      <div class="result-card">
+        <div class="result-info">
+          <p>${data.answer}</p>
         </div>
+      </div>
     `;
 
-    result.scrollIntoView({
-        behavior: "smooth"
-    });
+  } catch (error) {
+    console.error(error);
 
-    console.log("Лучший вариант:", best);
+    result.innerHTML = `
+      <p class="small-title">SAFAR AI</p>
+      <h2>Ой, что-то пошло не так 😭</h2>
+      <p>Не удалось связаться с SAFAR AI. Попробуй ещё раз.</p>
+    `;
+  }
 }

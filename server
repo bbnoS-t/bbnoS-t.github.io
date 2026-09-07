@@ -1,1 +1,85 @@
 server.js
+const express = require("express");
+const cors = require("cors");
+const OpenAI = require("openai");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+const client = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+app.post("/recommend", async (req, res) => {
+
+    try {
+
+        const { category, duration, budget, companions } = req.body;
+
+        const response = await client.responses.create({
+            model: "gpt-5-mini",
+
+            tools: [
+                {
+                    type: "web_search"
+                }
+            ],
+
+            input: `
+Ты — SAFAR AI, туристический помощник по Кызылординской области Казахстана.
+
+Пользователь хочет путешествие со следующими параметрами:
+
+Интересы: ${category}
+Продолжительность: ${duration}
+Бюджет: ${budget}
+Компания: ${companions}
+
+Твоя задача:
+
+1. Найди подходящие туристические места Кызылординской области.
+2. Используй в первую очередь официальные источники:
+   - gov.kz
+   - kazakhstan.travel
+   - официальные сайты музеев, заповедников и туристических объектов.
+3. Не придумывай факты.
+4. Не придумывай цены, расписания и время работы.
+5. Если актуальная информация не найдена, честно напиши, что она неизвестна.
+6. Выбери 3 наиболее подходящих варианта.
+7. Для каждого объясни, почему он подходит пользователю.
+8. Укажи источник информации.
+9. Ответь на русском языке.
+
+Верни результат в понятном виде:
+
+1. Название места
+   Подходит: XX%
+   Почему:
+   Краткое описание:
+   Бюджет:
+   Время:
+   Источник:
+`
+        });
+
+        res.json({
+            answer: response.output_text
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Не удалось получить рекомендации"
+        });
+
+    }
+
+});
+
+app.listen(3000, () => {
+    console.log("SAFAR AI запущен: http://localhost:3000");
+});
